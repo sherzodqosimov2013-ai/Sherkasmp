@@ -1,0 +1,501 @@
+
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0b130e">
+<title>SherkaSMP | Official</title>
+
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+ margin:0;background:#0b130e;color:white;
+ font-family:Arial,sans-serif;
+}
+header{
+ background:#14251a;padding:16px 5%;
+ display:flex;justify-content:space-between;
+ align-items:center;flex-wrap:wrap;gap:12px;
+ position:sticky;top:0;z-index:1000;
+ border-bottom:1px solid #315b3c;
+}
+.logo{font-size:24px;font-weight:900}
+.logo span,h1 span{color:#65ed80}
+nav{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+nav a,.game-menu{
+ color:white;text-decoration:none;font-size:13px;
+ font-weight:bold;
+}
+nav a:hover{color:#65ed80}
+button{
+ background:#65ed80;color:#092012;
+ border:0;border-radius:9px;padding:13px 18px;
+ font-weight:bold;cursor:pointer;
+}
+button:active{transform:scale(.97)}
+.hero{
+ text-align:center;padding:75px 15px;
+ background:linear-gradient(#07100a99,#0b130e),
+ url('https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1400&q=85') center/cover;
+}
+h1{font-size:clamp(45px,10vw,85px);margin:15px}
+.subtitle{color:#c8ddcb;line-height:1.7}
+.box{
+ background:#172b1d;border:1px solid #315b3c;
+ border-radius:16px;padding:24px;
+ margin:20px auto;max-width:650px;
+}
+.ip{font-weight:bold;overflow-wrap:anywhere}
+#copyMessage{color:#65ed80}
+section{padding:45px 5%;text-align:center}
+h2{font-size:29px}
+.cards{
+ display:grid;grid-template-columns:repeat(3,1fr);
+ gap:18px;
+}
+.card{
+ background:#172b1d;border:1px solid #315b3c;
+ border-radius:15px;overflow:hidden;
+}
+.card p{padding:0 15px 15px;color:#c8ddcb;line-height:1.6}
+
+/* MINECRAFT SCENES */
+.minecraft-scene{
+ height:210px;position:relative;overflow:hidden;
+ background:linear-gradient(#55a9e9 0%,#a6ddff 68%,#568c38 68%);
+ image-rendering:pixelated;
+}
+.scene-ground{
+ position:absolute;bottom:0;height:35%;width:100%;
+ background:repeating-linear-gradient(
+  90deg,#477b30 0 35px,#568d39 35px 70px);
+}
+.player{
+ position:absolute;bottom:34%;width:42px;height:70px;
+}
+.player .head{
+ width:35px;height:35px;margin:auto;
+ background:#d9a16e;border:4px solid #81502d;
+}
+.player .body{
+ width:39px;height:38px;margin:auto;
+ background:#2675d5;border:3px solid #163c76;
+}
+.player.red .body{background:#d63838;border-color:#851e1e}
+.player.green .body{background:#259e54;border-color:#12622e}
+.player.blue .body{background:#2773d9;border-color:#17417e}
+.sword{
+ position:absolute;width:9px;height:65px;
+ background:#dce8ed;border:2px solid #526b7a;
+ transform:rotate(40deg);top:8px;right:-10px;
+}
+.scene-label{
+ position:absolute;top:10px;left:10px;
+ padding:7px 12px;background:#102017dd;
+ border-radius:6px;font-weight:bold;
+}
+
+/* GAMES MENU */
+.games{position:relative}
+.game-menu{background:#203b28}
+.dropdown{
+ display:none;position:absolute;right:0;top:calc(100% + 8px);
+ z-index:2000;width:210px;background:#172b1d;
+ border:2px solid #65ed80;border-radius:12px;padding:10px;
+ box-shadow:0 10px 30px #0009;
+}
+.dropdown.show{display:block}
+.dropdown a{
+ display:block;padding:13px;color:white;
+ text-decoration:none;border-radius:7px;
+}
+.dropdown a:hover{background:#315b3c}
+
+/* TIMER */
+.timer{
+ display:grid;grid-template-columns:repeat(4,1fr);gap:10px;
+}
+.time{background:#0c1910;padding:15px 5px;border-radius:12px}
+.time strong{display:block;color:#65ed80;font-size:30px}
+.time small{color:#b9cbbb}
+
+/* VERSIONS */
+.versions{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+.version{
+ background:#172b1d;border:1px solid #315b3c;
+ border-radius:15px;padding:20px;
+}
+.range{color:#65ed80;font-size:22px;font-weight:bold}
+
+/* IDEAS */
+input,textarea{
+ width:100%;padding:14px;margin:7px 0;
+ background:#0c1910;color:white;
+ border:1px solid #426c4b;border-radius:9px;
+ font-size:15px;
+}
+textarea{height:110px;resize:vertical}
+.comment{
+ background:#0c1910;border-left:4px solid #65ed80;
+ border-radius:9px;text-align:left;
+ padding:15px;margin-top:12px;overflow-wrap:anywhere;
+}
+.comment strong{color:#65ed80}
+.comment p{line-height:1.5}
+.notice{color:#a9c1ac;font-size:12px;line-height:1.6}
+.member{
+ background:#102017;border:1px solid #315b3c;
+ padding:15px;border-radius:10px;margin:10px 0;
+}
+footer{
+ text-align:center;padding:30px;color:#a9bbaa;
+ border-top:1px solid #315b3c;line-height:1.8;
+}
+@media(max-width:700px){
+ header{justify-content:center}
+ nav{justify-content:center}
+ nav a,.game-menu{font-size:11px}
+ .cards{grid-template-columns:1fr}
+ .versions{grid-template-columns:1fr}
+ .timer{grid-template-columns:repeat(2,1fr)}
+ .hero{padding:55px 12px}
+ .minecraft-scene{height:220px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+ <div class="logo">SHERKA<span>SMP</span></div>
+ <nav>
+  <a href="#server">Server</a>
+  <a href="#versions">Versiyalar</a>
+
+  <div class="games">
+   <button class="game-menu" onclick="toggleGames()">
+    🎮 Video Games ▾
+   </button>
+   <div class="dropdown" id="gameDropdown">
+    <a href="https://taming.io/" target="_blank">🐾 Taming.io</a>
+    <a href="https://agar.io/" target="_blank">🔵 Agar.io</a>
+    <a href="https://diep.io/" target="_blank">🔫 Diep.io</a>
+    <a href="https://minecraft.net/" target="_blank">⛏️ Minecraft</a>
+   </div>
+  </div>
+
+  <a href="#ideas">Ideas</a>
+ </nav>
+</header>
+
+<!-- SERVER -->
+<div class="hero" id="server">
+ <h1>SHERKA<span>SMP</span></h1>
+ <p class="subtitle">
+  OFFICIAL MINECRAFT SURVIVAL SERVER<br>
+  Yangi sarguzashtlar seni kutmoqda!
+ </p>
+
+ <p style="color:#65ed80;font-weight:bold">
+  SERVER MODERATORI: SHERKACRAFT
+ </p>
+
+ <div class="box">
+  <h2>SERVER IP</h2>
+  <p class="ip">sherzod.aternos.me:62297</p>
+  <button onclick="copyIP()">IP NUSXALASH</button>
+  <p id="copyMessage"></p>
+ </div>
+</div>
+
+<!-- COUNTDOWN -->
+<section>
+ <div class="box">
+  <h2>🎉 SERVER OCHILISHIGA</h2>
+  <p>2027-yil 1-yanvar</p>
+
+  <div class="timer">
+   <div class="time"><strong id="days">00</strong><small>KUN</small></div>
+   <div class="time"><strong id="hours">00</strong><small>SOAT</small></div>
+   <div class="time"><strong id="minutes">00</strong><small>MINUT</small></div>
+   <div class="time"><strong id="seconds">00</strong><small>SEKUND</small></div>
+  </div>
+
+  <h3 id="timerMessage" style="color:#65ed80">
+   ⏳ Server moderatorlar tomonidan tayyorlanmoqda
+  </h3>
+ </div>
+</section>
+
+<!-- MINECRAFT MODES -->
+<section>
+ <h2>🌍 SHERKASMP OLAMI</h2>
+
+ <div class="cards">
+
+  <!-- SURVIVAL -->
+  <div class="card">
+   <div class="minecraft-scene">
+    <div class="scene-label">🌲 SURVIVAL WORLD</div>
+    <div class="scene-ground"></div>
+    <div style="position:absolute;bottom:34%;left:15%;font-size:55px">🌳</div>
+    <div style="position:absolute;bottom:34%;right:15%;font-size:55px">🌲</div>
+    <div class="player green" style="left:45%">
+     <div class="head"></div><div class="body"></div>
+    </div>
+   </div>
+   <h3>🌲 SURVIVAL</h3>
+   <p>O‘z uyingni qur, resurs yig‘ va yangi dunyoni kashf et!</p>
+  </div>
+
+  <!-- PVP -->
+  <div class="card">
+   <div class="minecraft-scene">
+    <div class="scene-label">⚔️ PVP BATTLE</div>
+    <div class="scene-ground"></div>
+    <div class="player red" style="left:23%;transform:scale(1.15)">
+     <div class="head"></div><div class="body"></div><div class="sword"></div>
+    </div>
+    <div class="player blue" style="right:23%;transform:scale(1.15)">
+     <div class="head"></div><div class="body"></div><div class="sword"></div>
+    </div>
+   </div>
+   <h3>⚔️ PVP</h3>
+   <p>Ikki Minecraft o‘yinchisi jang maydonida!</p>
+  </div>
+
+  <!-- COMMUNITY -->
+  <div class="card">
+   <div class="minecraft-scene">
+    <div class="scene-label">🤝 TEAMWORK</div>
+    <div class="scene-ground"></div>
+    <div class="player green" style="left:20%">
+     <div class="head"></div><div class="body"></div>
+    </div>
+    <div class="player blue" style="right:20%">
+     <div class="head"></div><div class="body"></div>
+    </div>
+    <div style="position:absolute;bottom:35%;left:43%;
+     width:48px;height:45px;background:#96602f;
+     border:5px solid #60401e"></div>
+   </div>
+   <h3>🤝 COMMUNITY</h3>
+   <p>Ikki o‘yinchi birgalikda uy qurmoqda!</p>
+  </div>
+
+ </div>
+</section>
+
+<!-- VERSIONS -->
+<section id="versions">
+ <h2>🎮 O‘YIN VERSIYALARI</h2>
+ <div class="versions">
+  <div class="version">
+   <h2>📱 BEDROCK</h2>
+   <div class="range">26.30 – 26.50</div>
+  </div>
+  <div class="version">
+   <h2>💻 JAVA</h2>
+   <div class="range">1.21.4 – 1.21.11</div>
+  </div>
+ </div>
+</section>
+
+<!-- IDEAS -->
+<section id="ideas">
+ <div class="box">
+  <h2>💡 SHERKASMP IDEAS</h2>
+  <p>Taklifing yoki fikring bormi? Bizga yoz!</p>
+
+  <form id="ideaForm">
+   <input id="nickname" placeholder="Minecraft nick"
+    maxlength="20" required>
+
+   <input id="email" type="email"
+    placeholder="Gmail manziling" required>
+
+   <textarea id="idea" placeholder="Fikringni yoz..."
+    maxlength="300" required></textarea>
+
+   <button type="submit">📨 FIKRNI YUBORISH</button>
+  </form>
+
+  <p class="notice">
+   Email manziling izohda ko‘rsatilmaydi.
+   Bu namuna haqiqiy Google login emas.
+  </p>
+ </div>
+
+ <h2>💬 O‘YINCHILAR FIKRLARI</h2>
+ <div id="comments"></div>
+</section>
+
+<!-- CONTRIBUTORS -->
+<section>
+ <h2>🏆 SERVERGA HISSA QO‘SHGANLAR</h2>
+ <div class="box">
+  <div class="member">⭐ Jasur Olimov</div>
+  <div class="member">⭐ Inoyatov Inoyattillo</div>
+  <div class="member">⭐ Shavkatullayev Firdavs</div>
+ </div>
+</section>
+
+<!-- CREATOR -->
+<section>
+ <div class="box">
+  <h2>👨‍💻 SAYT YARATUVCHISI</h2>
+  <h2 style="color:#65ed80">Sherzod Qosimov</h2>
+  <p>SherkaSMP Official Website</p>
+ </div>
+</section>
+
+<footer>
+ © 2026 SHERKASMP<br>
+ Moderator: SherkaCraft<br>
+ Sayt yaratuvchisi: Sherzod Qosimov
+</footer>
+
+<script>
+
+// VIDEO GAMES MENU
+function toggleGames(){
+ document.getElementById("gameDropdown")
+ .classList.toggle("show");
+}
+
+document.addEventListener("click",function(e){
+ if(!e.target.closest(".games")){
+  document.getElementById("gameDropdown")
+  .classList.remove("show");
+ }
+});
+
+// IP COPY
+const SERVER_IP="sherzod.aternos.me:62297";
+
+async function copyIP(){
+ const msg=document.getElementById("copyMessage");
+
+ try{
+  if(navigator.clipboard && window.isSecureContext){
+   await navigator.clipboard.writeText(SERVER_IP);
+  }else{
+   const input=document.createElement("textarea");
+   input.value=SERVER_IP;
+   input.style.position="fixed";
+   input.style.left="-9999px";
+   document.body.appendChild(input);
+   input.select();
+   input.setSelectionRange(0,input.value.length);
+   const ok=document.execCommand("copy");
+   input.remove();
+   if(!ok)throw Error();
+  }
+  msg.textContent="✓ IP NUSXALANDI!";
+ }catch(e){
+  msg.textContent="IP: "+SERVER_IP+" — qo‘lda nusxala.";
+ }
+}
+
+// COUNTDOWN
+function updateTimer(){
+ const target=new Date(2027,0,1,0,0,0).getTime();
+ const distance=target-Date.now();
+
+ if(distance<=0){
+  ["days","hours","minutes","seconds"].forEach(id=>{
+   document.getElementById(id).textContent="00";
+  });
+  document.getElementById("timerMessage").textContent=
+   "🎉 SERVER OCHILISH KUNI!";
+  return;
+ }
+
+ document.getElementById("days").textContent=
+  Math.floor(distance/86400000);
+ document.getElementById("hours").textContent=
+  Math.floor(distance%86400000/3600000);
+ document.getElementById("minutes").textContent=
+  Math.floor(distance%3600000/60000);
+ document.getElementById("seconds").textContent=
+  Math.floor(distance%60000/1000);
+}
+updateTimer();
+setInterval(updateTimer,1000);
+
+// IDEAS
+const form=document.getElementById("ideaForm");
+const comments=document.getElementById("comments");
+
+let ideas=[];
+try{
+ ideas=JSON.parse(localStorage.getItem("sherkaIdeas")||"[]");
+ if(!Array.isArray(ideas))ideas=[];
+}catch(e){ideas=[];}
+
+function showIdeas(){
+ comments.innerHTML="";
+
+ if(ideas.length===0){
+  comments.textContent="Hozircha fikrlar yo‘q. Birinchi bo‘lib yoz!";
+  return;
+ }
+
+ ideas.slice().reverse().forEach(item=>{
+  const card=document.createElement("div");
+  card.className="comment";
+
+  const name=document.createElement("strong");
+  name.textContent="👤 "+item.name;
+
+  const date=document.createElement("small");
+  date.textContent=" • "+item.date;
+
+  const message=document.createElement("p");
+  message.textContent=item.text;
+
+  card.append(name,date,message);
+  comments.appendChild(card);
+ });
+}
+
+form.addEventListener("submit",function(e){
+ e.preventDefault();
+
+ const name=document.getElementById("nickname").value.trim();
+ const email=document.getElementById("email").value.trim();
+ const text=document.getElementById("idea").value.trim();
+
+ if(!name||!email||!text)return;
+
+ if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+  alert("To‘g‘ri email manzil kiriting!");
+  return;
+ }
+
+ ideas.push({
+  name:name,
+  text:text,
+  date:new Date().toLocaleString()
+ });
+
+ try{
+  localStorage.setItem("sherkaIdeas",JSON.stringify(ideas));
+ }catch(error){
+  ideas.pop();
+  alert("Saqlash imkoni bo‘lmadi.");
+  return;
+ }
+
+ form.reset();
+ showIdeas();
+ alert("Fikring qabul qilindi!");
+});
+
+showIdeas();
+
+</script>
+</body>
+</html>
